@@ -1,0 +1,26 @@
+body{
+	margin: 0;
+	background-color: #c71c1c;
+}
+
+.navbar{
+	background-color: #ffffff;
+	height: 80px;
+	width: 100%;
+}
+
+.navbarmobile{
+	position: absolute;
+	top: 20px;
+	right: 3%;
+	height: 30px;
+	width: 30px;
+
+}
+
+.red_band{
+	width: 30px;
+	height: 6px;
+	margin-top: 5px;
+	background-color: #c71c1c;
+}
