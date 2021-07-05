@@ -9,7 +9,49 @@ body{
 	width: 100%;
 }
 
+.title{
+	margin-top: 100px;
+	text-align: center;
+	color: white;
+	font-family: 'Courier New', monospace;
+}
+
+.grid{
+	display: grid;
+	grid-template-columns: 230px 230px 230px;
+	width: 670px;
+	margin: 20px auto;
+
+}
+
+.boite{
+	border: 4px solid white;
+	border-radius: 15px;
+	width: 200px;
+	height: 200px;
+	text-align: center;
+	font-family: "Lato", "sans-serif";
+	color: white;
+	margin-top: 5px;
+	font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 768px) {
+
 .navbarmobile{
+	visibility: visible;
 	position: absolute;
 	top: 20px;
 	right: 3%;
@@ -19,8 +61,19 @@ body{
 }
 
 .red_band{
+	visibility: visible;
 	width: 30px;
 	height: 6px;
 	margin-top: 5px;
 	background-color: #c71c1c;
+}
+
+.grid{
+	display: block;
+	margin-left: 29%;
+}
+.boite{
+	margin-top: 30px;
+}
+
 }
