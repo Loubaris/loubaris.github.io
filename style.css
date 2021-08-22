@@ -14,10 +14,12 @@ body{
 }
 
 .navbar{
-	background-color: #ffffff;
+	background-color: white;
 	height: 80px;
 	width: 100%;
 }
+
+
 
 .title{
 	transition: .5s;
@@ -73,11 +75,53 @@ body{
 }
 
 
+
+.description{
+	width: 100%;
+	position: absolute;
+	margin-top: 100px;
+	text-align: center;
+}
+
+.titledesc{
+	transition: .5s;
+	margin-top: 100px;
+	text-align: center;
+	color: white;
+	font-family: "Untitled Sans",Helvetica,Arial,sans-serif;
+}
+
+.quisuisje{
+	transition: 0.2s;
+	text-align: center;
+	color:  white;
+	font-weight: bold;
+	font-family: "Untitled Sans",Helvetica,Arial,sans-serif;
+}
+
+
 @media only screen and (max-width: 768px) {
 
 body{
 	overflow-x: hidden;
 	width: 100%;
+}
+
+.description{
+	width: 100%;
+	position: absolute;
+	margin-top: 100px;
+	text-align: center;
+}
+
+.loadingdiv{
+	opacity: 1;
+	transition: 1.3s;
+	position: absolute;
+	width: 100%;
+	height: 300%;
+	background-color: white;
+	z-index: 99;
 }
 
 .navbarmobile{
