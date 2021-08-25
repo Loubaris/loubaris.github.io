@@ -155,6 +155,24 @@ body{
 	width: 100%;
 }
 
+.lineblancdivtwo{
+	visibility: hidden;
+	position: absolute;
+	margin-top: 520px;
+	width: 100%;
+	height: 10px;
+	z-index: 99;
+}
+
+.lineblanctwo{
+	visibility: hidden;
+	margin: 0 auto;
+	transition: 2s;
+	width: 1px;
+	background-color: white;
+	height: 8px;
+}
+
 .description{
 	width: 100%;
 	position: absolute;
