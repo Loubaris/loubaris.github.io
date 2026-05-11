@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:thepilotdev.github.io)",
+      "WebFetch(domain:www.minecraft.net)",
+      "WebSearch",
+      "WebFetch(domain:bedrockexplorer.com)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}
