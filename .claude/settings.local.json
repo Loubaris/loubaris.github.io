@@ -5,7 +5,14 @@
       "WebFetch(domain:www.minecraft.net)",
       "WebSearch",
       "WebFetch(domain:bedrockexplorer.com)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "WebFetch(domain:www.bedrockexplorer.com)",
+      "Bash(node -e 'const fs=require\\('\\\\''fs'\\\\''\\);const html=fs.readFileSync\\('\\\\''c:/Users/I768807/OneDrive - SAP SE/Desktop/MES/PORTFOLIO/loubaris.github.io/index.html'\\\\'','\\\\''utf8'\\\\''\\);const lines=html.split\\('\\\\''\\\\n'\\\\''\\);console.log\\('\\\\''Total lines:'\\\\'',lines.length\\);// Find key text snippets *)",
+      "Bash(node -e 'const fs=require\\('\\\\''fs'\\\\''\\);const html=fs.readFileSync\\('\\\\''c:/Users/I768807/OneDrive - SAP SE/Desktop/MES/PORTFOLIO/loubaris.github.io/index.html'\\\\'','\\\\''utf8'\\\\''\\);const lines=html.split\\('\\\\''\\\\n'\\\\''\\);// Show lines around maps section *)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const html=fs.readFileSync\\('c:/Users/I768807/OneDrive - SAP SE/Desktop/MES/PORTFOLIO/loubaris.github.io/index.html','utf8'\\);const lines=html.split\\('\\\\n'\\);[391,392,393,418,419,420,445,446,447].forEach\\(i=>console.log\\(i+': '+lines[i-1]\\)\\);\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const html=fs.readFileSync\\('c:/Users/I768807/OneDrive - SAP SE/Desktop/MES/PORTFOLIO/loubaris.github.io/index.html','utf8'\\);const lines=html.split\\('\\\\n'\\);for\\(let i=200;i<360;i++\\){console.log\\(\\(i+1\\)+': '+lines[i]\\);}\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const html=fs.readFileSync\\('c:/Users/I768807/OneDrive - SAP SE/Desktop/MES/PORTFOLIO/loubaris.github.io/index.html','utf8'\\);const lines=html.split\\('\\\\n'\\);for\\(let i=550;i<700;i++\\){console.log\\(\\(i+1\\)+': '+lines[i]\\);}\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const html=fs.readFileSync\\('c:/Users/I768807/OneDrive - SAP SE/Desktop/MES/PORTFOLIO/loubaris.github.io/index.html','utf8'\\);const lines=html.split\\('\\\\n'\\);const hits=[];lines.forEach\\(\\(l,i\\)=>{if\\(l.includes\\('Combat Classes'\\)\\)hits.push\\(\\(i+1\\)+': '+l.trim\\(\\)\\);}\\);console.log\\(hits.join\\('\\\\n'\\)\\);\")"
     ]
   }
 }
