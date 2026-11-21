@@ -3,886 +3,358 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Olivares — Minecraft Bedrock Studio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Adam Loubaris · Minecraft Bedrock Developer</title>
+  <meta name="description" content="Adam Loubaris, freelance Minecraft Bedrock developer: add-ons, gameplay systems and maps for the official Minecraft Marketplace.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            zinc: {
-              950: '#09090b',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background-color: #09090b; color: #fafafa; -webkit-font-smoothing: antialiased; }
+    :root {
+      --ink: #16181d; --text: #3d424b; --muted: #6b717c; --line: #e4e6ea; --bg: #ffffff; --soft: #f6f7f9;
+      --accent: #1f5a32; --accent-soft: #e9f2ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    .minecraft-font { font-family: 'Press Start 2P', monospace; }
-    .outfit { font-family: 'Outfit', sans-serif; }
-    .glassmorphism {
-      background-color: rgba(24, 24, 27, 0.5);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .text-glow { text-shadow: 0 0 20px rgba(59,130,246,0.5); }
-    ::selection { background-color: rgba(59,130,246,0.3); }
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #09090b; }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 5px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    body { font-family: "Inter", "Segoe UI", Arial, sans-serif; color: var(--text); background: var(--bg);
+           font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
-    @keyframes shimmer {
-      0%   { background-position: 200% center; }
-      100% { background-position: -200% center; }
-    }
-    @keyframes marquee {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50%       { transform: translateY(-12px) rotate(3deg); }
-    }
-    .shimmer-btn {
-      position: relative;
-      overflow: hidden;
-    }
-    .shimmer-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.18) 50%, transparent 75%);
-      background-size: 200% 100%;
-      animation: shimmer 2s infinite;
-    }
-    .marquee-track { animation: marquee 35s linear infinite; }
-    .float-card { animation: float 6s ease-in-out infinite; }
-    .float-card-2 { animation: float 8s ease-in-out infinite 1s; }
-    .float-card-3 { animation: float 7s ease-in-out infinite 2s; }
+    header { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+             border-bottom: 1px solid var(--line); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+    nav { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
+    nav a { color: var(--muted); transition: color .15s; }
+    nav a:hover { color: var(--ink); }
 
-    /* Card hover spotlight */
-    .project-card { position: relative; transition: transform 0.5s, box-shadow 0.5s; }
-    .project-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(37,99,235,0.2); }
-    .project-card .card-spotlight {
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-      background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(59,130,246,0.15), transparent 80%);
-    }
-    .project-card:hover .card-spotlight { opacity: 1; }
+    .hero { padding: 96px 0 72px; }
+    .eyebrow { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: .02em; margin-bottom: 16px; }
+    h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); font-weight: 700; }
+    .lead { font-size: 19px; max-width: 640px; margin-top: 20px; color: var(--text); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .btn { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 8px; font-size: 15px;
+           font-weight: 600; border: 1px solid var(--line); color: var(--ink); background: #fff; transition: border-color .15s, background .15s; }
+    .btn:hover { border-color: #c9ccd2; background: var(--soft); }
+    .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .btn.primary:hover { background: #2b2f37; }
 
-    /* Section fade-in */
-    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .fade-in.visible { opacity: 1; transform: none; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .stats div { padding: 24px 20px; border-right: 1px solid var(--line); }
+    .stats div:last-child { border-right: 0; }
+    .stats b { display: block; font-size: 28px; color: var(--ink); letter-spacing: -0.02em; }
+    .stats span { font-size: 14px; color: var(--muted); }
+
+    section { padding: 80px 0; }
+    section + section { border-top: 1px solid var(--line); }
+    .grid-2 { display: grid; grid-template-columns: 240px 1fr; gap: 48px; }
+    h2 { font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .prose p + p { margin-top: 14px; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .studios { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .studios span { font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 6px; background: var(--soft);
+                    border: 1px solid var(--line); color: var(--text); }
+
+    .job + .job { margin-top: 28px; }
+    .job-top { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; flex-wrap: wrap; }
+    .job h3 { font-size: 17px; color: var(--ink); font-weight: 600; }
+    .job .where { color: var(--accent); font-weight: 500; font-size: 15px; }
+    .job .when { font-size: 14px; color: var(--muted); }
+    .job ul { margin: 8px 0 0 18px; }
+    .job li + li { margin-top: 4px; }
+
+    .section-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 28px; gap: 16px; flex-wrap: wrap; }
+    .section-head p { color: var(--muted); font-size: 15px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; display: flex; flex-direction: column;
+            transition: border-color .15s, box-shadow .15s; }
+    .card:hover { border-color: #c9ccd2; box-shadow: 0 8px 24px rgba(22,24,29,0.06); }
+    .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; border-bottom: 1px solid var(--line); }
+    .card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+    .card-meta { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+    .card-meta span:first-child { color: var(--accent); font-weight: 600; }
+    .card h3 { font-size: 18px; color: var(--ink); margin: 6px 0 6px; letter-spacing: -0.01em; }
+    .card p { font-size: 14.5px; flex: 1; }
+    .rating { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+    .thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 40px; }
+    .thumb { display: block; }
+    .thumb img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block;
+                 transition: opacity .15s; }
+    .thumb:hover img { opacity: .85; }
+    .thumb span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 6px; line-height: 1.35; }
+    .thumb b { display: block; color: var(--ink); font-weight: 600; font-size: 13.5px; }
+
+    .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .skills h3 { font-size: 15px; color: var(--ink); margin-bottom: 8px; }
+    .skills li { list-style: none; font-size: 15px; }
+    .skills li + li { margin-top: 4px; }
+
+    .contact-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 24px; max-width: 640px; }
+    .contact-list a, .contact-list div { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; transition: border-color .15s; }
+    .contact-list a:hover { border-color: #c9ccd2; }
+    .contact-list small { display: block; font-size: 12.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+    .contact-list strong { color: var(--ink); font-weight: 600; font-size: 15px; word-break: break-all; }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0; font-size: 14px; color: var(--muted); }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .thumbs { grid-template-columns: repeat(3, 1fr); }
+      .grid-2 { grid-template-columns: 1fr; gap: 20px; }
+    }
+    @media (max-width: 640px) {
+      nav { display: none; }
+      .hero { padding: 64px 0 48px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stats div:nth-child(2) { border-right: 0; }
+      .stats div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .cards, .skills, .contact-list { grid-template-columns: 1fr; }
+      .thumbs { grid-template-columns: repeat(2, 1fr); }
+      section { padding: 56px 0; }
+    }
   </style>
 </head>
 <body>
-
-<!-- ═══════════════════════ NAV ═══════════════════════ -->
-<nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300" style="background:rgba(9,9,11,0.8);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,0.1);">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
-      <a href="#" class="flex items-center gap-3 minecraft-font text-xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors">
-          <img src="logo.png" alt="Olivares logo" class="h-14 w-14 object-contain">
-          Olivares
-        </a>
-      <div class="hidden md:flex items-center gap-8">
-        <a href="#about"  class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">About</a>
-        <a href="#addons" class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Add-Ons</a>
-        <a href="#maps"   class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Maps</a>
-        <a href="#contact" class="text-sm font-semibold px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white transition-all"
-           style="box-shadow:0 0 20px rgba(37,99,235,0.3);"
-           onmouseover="this.style.boxShadow='0 0 30px rgba(37,99,235,0.5)'"
-           onmouseout="this.style.boxShadow='0 0 20px rgba(37,99,235,0.3)'">More...</a>
-      </div>
-      <!-- Mobile menu button -->
-      <button id="menu-btn" class="md:hidden text-zinc-400 hover:text-white">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="#">Adam Loubaris</a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#work">Work</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-    <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden pb-4 space-y-3">
-      <a href="#about"  class="block text-sm font-medium text-zinc-400 hover:text-white transition-colors py-2">About</a>
-      <a href="#addons" class="block text-sm font-medium text-zinc-400 hover:text-white transition-colors py-2">Add-Ons</a>
-      <a href="#maps"   class="block text-sm font-medium text-zinc-400 hover:text-white transition-colors py-2">Maps</a>
-      <a href="#contact" class="block text-sm font-medium text-zinc-400 hover:text-white transition-colors py-2">More...</a>
-    </div>
-  </div>
-</nav>
+  </header>
 
-<!-- ═══════════════════════ HERO ═══════════════════════ -->
-<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-12">
-  <!-- Background -->
-  <div class="absolute inset-0" style="background:#09090b;z-index:-3;"></div>
-  <div class="absolute inset-0" style="background:radial-gradient(circle at 50% 50%, rgba(37,99,235,0.15) 0%, transparent 50%);z-index:-2;"></div>
-  <div class="absolute inset-0" style="background:radial-gradient(circle at 80% 20%, rgba(14,165,233,0.15) 0%, transparent 30%);z-index:-2;"></div>
-  <div class="absolute inset-0" style="background:radial-gradient(circle at 20% 80%, rgba(139,92,246,0.15) 0%, transparent 30%);z-index:-2;"></div>
-
-  <!-- Floating decorative blocks -->
-  <div class="absolute hidden md:block float-card glassmorphism rounded-xl" style="left:12%;top:22%;width:80px;height:80px;z-index:1;"></div>
-  <div class="absolute hidden md:block float-card-2 glassmorphism rounded-xl" style="right:14%;top:28%;width:56px;height:56px;z-index:1;"></div>
-  <div class="absolute hidden md:block float-card-3 glassmorphism rounded-xl" style="right:10%;bottom:28%;width:100px;height:100px;z-index:1;"></div>
-  <div class="absolute hidden md:block float-card glassmorphism rounded-xl" style="left:18%;bottom:26%;width:44px;height:44px;z-index:1;animation-delay:3s;"></div>
-
-  <div class="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
-    <!-- Name -->
-    <h1 class="minecraft-font text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-6 text-white leading-tight"
-        style="text-shadow:0 0 30px rgba(59,130,246,0.3);">Olivares</h1>
-
-    <!-- Subtitle -->
-    <p class="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
-      Minecraft Bedrock Studio building extraordinary
-      <span class="text-blue-400">add-ons</span>, powerful
-      <span class="text-blue-400">maps</span>, and immersive adventures for millions of players.
-    </p>
-
-    <!-- CTAs -->
-    <div class="flex flex-col sm:flex-row gap-5">
-      <a href="#maps" class="shimmer-btn group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg text-white transition-all hover:scale-105 active:scale-95"
-         style="background:linear-gradient(to right,#2563eb,#3b82f6);box-shadow:0 0 40px rgba(37,99,235,0.4);"
-         onmouseover="this.style.boxShadow='0 0 60px rgba(37,99,235,0.6)'"
-         onmouseout="this.style.boxShadow='0 0 40px rgba(37,99,235,0.4)'">
-        <!-- Sword icon -->
-        <svg class="w-6 h-6 relative z-10 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" x2="19" y1="19" y2="13"></line>
-          <line x1="16" x2="20" y1="16" y2="20"></line><line x1="19" x2="21" y1="21" y2="19"></line>
-        </svg>
-        <span class="relative z-10">View Our Work</span>
-      </a>
-      <a href="#contact" class="group glassmorphism inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg text-white transition-all hover:scale-105 active:scale-95"
-         style="hover:background:rgba(39,39,42,0.5);">
-        <svg class="w-6 h-6 text-zinc-400 group-hover:text-blue-400 transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-        <span>More...</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- Scroll arrow -->
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500">
-    <span class="text-xs uppercase tracking-widest font-semibold">Scroll</span>
-    <svg class="w-5 h-5 animate-bounce text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-  </div>
-</section>
-
-<!-- ═══════════════════════ MARQUEE ═══════════════════════ -->
-<div class="overflow-hidden" style="border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);background:rgba(9,9,11,0.6);padding:14px 0;">
-  <div class="flex marquee-track whitespace-nowrap select-none" style="width:max-content;">
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">+30 Maps Worked On</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">+10 Add-Ons</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">10+ Studios</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">Minecraft Bedrock</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">Official Marketplace</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">+30 Maps Worked On</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">+10 Add-Ons</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">10+ Studios</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">Minecraft Bedrock</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-    <span class="mx-8 text-zinc-500 font-semibold text-sm uppercase tracking-wider">Official Marketplace</span>
-    <span class="mx-4 text-blue-500 font-bold">◆</span>
-  </div>
-</div>
-
-<!-- ═══════════════════════ ABOUT ═══════════════════════ -->
-<section id="about" class="py-24 md:py-32 px-6 lg:px-8 relative">
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-16 fade-in">
-      <h2 class="outfit text-4xl md:text-6xl font-black tracking-tight mb-4 text-white">About Us</h2>
-      <p class="text-zinc-400 text-lg">The studio behind the blocks</p>
-    </div>
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-      <!-- Text -->
-      <div class="space-y-6 relative fade-in">
-        <div class="absolute -inset-4 -z-10 blur-3xl" style="background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(168,85,247,0.15));"></div>
-        <p class="text-lg text-zinc-300 leading-relaxed">
-          <span class="text-white font-semibold">Olivares</span> is a Minecraft Bedrock studio specializing in creating add-ons and contributing to maps on the official Minecraft Marketplace.
-        </p>
-        <p class="text-lg text-zinc-300 leading-relaxed">
-          Olivares has collaborated with top studios including
-          <span class="text-blue-400 font-semibold">Monster Egg Studios</span>,
-          <span class="text-blue-400 font-semibold">Eescal Studios</span>,
-          <span class="text-blue-400 font-semibold">Kubo Studios</span>,
-          <span class="text-blue-400 font-semibold">4KS Studios</span>,
-          <span class="text-blue-400 font-semibold">Yeggs</span>,
-          <span class="text-blue-400 font-semibold">Architect Edge</span>,
-          <span class="text-blue-400 font-semibold">Pixelusion</span>,
-          <span class="text-blue-400 font-semibold">Miracles Studios</span>,
-          <span class="text-blue-400 font-semibold">Lua Studios</span>,
-          <span class="text-blue-400 font-semibold">Pickaxe Studios</span>, and more
-          to deliver high-quality content enjoyed by millions of players worldwide.
-        </p>
-        <p class="text-lg text-zinc-300 leading-relaxed">
-          From thrilling boss battles and parkour adventures to magical add-ons with unique mechanics — Olivares contributes to experiences that stand out on the official Marketplace.
-        </p>
-        <!-- Skills chips -->
-        <div class="flex flex-wrap gap-3 pt-2">
-          <span class="px-4 py-2 rounded-full text-sm font-semibold text-blue-300" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);">Map Design</span>
-          <span class="px-4 py-2 rounded-full text-sm font-semibold text-blue-300" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);">Add-On Dev</span>
-          <span class="px-4 py-2 rounded-full text-sm font-semibold text-blue-300" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);">Bedrock Scripting</span>
-          <span class="px-4 py-2 rounded-full text-sm font-semibold text-blue-300" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);">Gameplay Design</span>
-          <span class="px-4 py-2 rounded-full text-sm font-semibold text-blue-300" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);">World Building</span>
-        </div>
-      </div>
-      <!-- Stats -->
-      <div class="grid grid-cols-2 gap-4 fade-in">
-        <div class="glassmorphism rounded-2xl p-6 text-center group hover:border-blue-500/30 transition-colors">
-          <div class="minecraft-font text-3xl font-black text-blue-400 mb-2 group-hover:text-blue-300 transition-colors">+30</div>
-          <div class="text-zinc-400 text-sm font-medium">Maps Worked On</div>
-        </div>
-        <div class="glassmorphism rounded-2xl p-6 text-center group hover:border-blue-500/30 transition-colors">
-          <div class="minecraft-font text-3xl font-black text-blue-400 mb-2 group-hover:text-blue-300 transition-colors">+10</div>
-          <div class="text-zinc-400 text-sm font-medium">Add-Ons Created</div>
-        </div>
-        <div class="glassmorphism rounded-2xl p-6 text-center group hover:border-blue-500/30 transition-colors">
-          <div class="minecraft-font text-3xl font-black text-blue-400 mb-2 group-hover:text-blue-300 transition-colors">10+</div>
-          <div class="text-zinc-400 text-sm font-medium">Partner Studios</div>
-        </div>
-        <div class="glassmorphism rounded-2xl p-6 text-center group hover:border-blue-500/30 transition-colors">
-          <div class="minecraft-font text-3xl font-black text-blue-400 mb-2 group-hover:text-blue-300 transition-colors">∞</div>
-          <div class="text-zinc-400 text-sm font-medium">Players Reached</div>
-        </div>
+  <main>
+    <div class="wrap hero">
+      <p class="eyebrow">Minecraft Bedrock Developer · France, CET</p>
+      <h1>Adam Loubaris</h1>
+      <p class="lead">I build add-ons, gameplay systems and maps for the official Minecraft Marketplace, with clean,
+        modular TypeScript on the Bedrock Script API.</p>
+      <div class="actions">
+        <a class="btn primary" href="mailto:adamou.loubaris@gmail.com">Get in touch</a>
+        <a class="btn" href="docs-90e93cc15d59e50f5a37618d/Adam_Loubaris_CV.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
+        <a class="btn" href="https://github.com/loubaris" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ═══════════════════════ MAPS ═══════════════════════ -->
-<section id="addons" class="py-24 md:py-32 px-6 lg:px-8 relative">
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-16 md:mb-20 fade-in">
-      <h2 class="outfit text-4xl md:text-6xl font-black tracking-tight mb-4 text-white">Featured Add-Ons</h2>
-      <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto">Add-ons we worked on for the official Marketplace.</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-      <!-- Card: Spellbook -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/monster-egg-studios/spellbook/a6ffa5d4-56aa-4998-bba2-8c3829025504" target="_blank" rel="noopener noreferrer" class="block h-full fade-in">
-        <div class="project-card group glassmorphism rounded-3xl overflow-hidden h-full" style="background:rgba(9,9,11,0.5);">
-          <div class="card-spotlight rounded-3xl"></div>
-          <div class="aspect-video overflow-hidden relative m-2 rounded-2xl">
-            <div class="absolute inset-0 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500" style="background:rgba(168,85,247,0.2);"></div>
-            <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-spellbook-thumbnail-4dc9ad5c82a23a6c-800.jpg"
-                 alt="Spellbook" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 z-20 transition-opacity duration-500 group-hover:opacity-60" style="background:linear-gradient(to top,#09090b,rgba(9,9,11,0.2),transparent);opacity:0.9;"></div>
-          </div>
-          <div class="relative z-30 p-6 pt-2">
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="tag-pill-purple">Magic</span><span class="tag-pill-purple">Spells</span><span class="tag-pill-purple">Add-On</span>
-            </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <h3 class="text-xl font-black text-white group-hover:text-purple-400 transition-colors">Spellbook</h3>
-              <span class="text-xs font-bold text-zinc-500 shrink-0 mt-1">Monster Egg Studios</span>
-            </div>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-3">10 diverse spellbooks with 50 unique magical abilities — become a fire mage, necromancer, druid, and more.</p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-yellow-400 text-xs">★★★★ <span class="text-zinc-500 ml-1">4.3 · 1.5K+ ratings</span></div>
-              <span class="text-zinc-500 text-xs font-semibold">310 MC</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card: CinemaCraft -->
-      <a href="https://bedrockexplorer.com/@monster-egg-studios/cinemacraft-add-on" target="_blank" rel="noopener noreferrer" class="block h-full fade-in">
-        <div class="project-card group glassmorphism rounded-3xl overflow-hidden h-full" style="background:rgba(9,9,11,0.5);">
-          <div class="card-spotlight rounded-3xl"></div>
-          <div class="aspect-video overflow-hidden relative m-2 rounded-2xl">
-            <div class="absolute inset-0 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500" style="background:rgba(59,130,246,0.2);"></div>
-            <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-cinemacraft-add-on-thumbnail-19cf10ea87911cbf-800.jpg"
-                 alt="CinemaCraft Add-On" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 z-20 transition-opacity duration-500 group-hover:opacity-60" style="background:linear-gradient(to top,#09090b,rgba(9,9,11,0.2),transparent);opacity:0.9;"></div>
-          </div>
-          <div class="relative z-30 p-6 pt-2">
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="tag-pill">Cinematic</span><span class="tag-pill">Camera</span><span class="tag-pill">Movie</span>
-            </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <h3 class="text-xl font-black text-white group-hover:text-blue-400 transition-colors">CinemaCraft Add-On</h3>
-              <span class="text-xs font-bold text-zinc-500 shrink-0 mt-1">Monster Egg Studios</span>
-            </div>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-3">The ultimate filmmaking tool — versatile camera controls, smooth pathing, and dynamic perspectives for breathtaking shots.</p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-yellow-400 text-xs">★★★★ <span class="text-zinc-500 ml-1">3.6</span></div>
-              <span class="text-zinc-500 text-xs font-semibold">990 MC</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card: Ring Pets -->
-      <a href="https://bedrockexplorer.com/@eescal-studios/ring-pets-add-on" target="_blank" rel="noopener noreferrer" class="block h-full fade-in">
-        <div class="project-card group glassmorphism rounded-3xl overflow-hidden h-full" style="background:rgba(9,9,11,0.5);">
-          <div class="card-spotlight rounded-3xl"></div>
-          <div class="aspect-video overflow-hidden relative m-2 rounded-2xl">
-            <div class="absolute inset-0 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500" style="background:rgba(168,85,247,0.2);"></div>
-            <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/eescal-studios-ring-pets-add-on-thumbnail-06e6e0ef26482324-800.jpg"
-                 alt="Ring Pets Add-On" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 z-20 transition-opacity duration-500 group-hover:opacity-60" style="background:linear-gradient(to top,#09090b,rgba(9,9,11,0.2),transparent);opacity:0.9;"></div>
-          </div>
-          <div class="relative z-30 p-6 pt-2">
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="tag-pill-purple">Pets</span><span class="tag-pill-purple">Magic</span><span class="tag-pill-purple">Rings</span>
-            </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <h3 class="text-xl font-black text-white group-hover:text-purple-400 transition-colors">Ring Pets Add-On</h3>
-              <span class="text-xs font-bold text-zinc-500 shrink-0 mt-1">Eescal Studios</span>
-            </div>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-3">Craft magical rings to cast awesome spells and summon amazing pets — unlock the mysteries of ring magic.</p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-yellow-400 text-xs">★★★★ <span class="text-zinc-500 ml-1">4.0 · 400+ ratings</span></div>
-              <span class="text-zinc-500 text-xs font-semibold">490 MC</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card: Combat Classes -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/monster-egg-studios/combat-classes/68f37b02-1b8a-4b8b-a746-6fdc3e6f5582" target="_blank" rel="noopener noreferrer" class="block h-full fade-in">
-        <div class="project-card group glassmorphism rounded-3xl overflow-hidden h-full" style="background:rgba(9,9,11,0.5);">
-          <div class="card-spotlight rounded-3xl"></div>
-          <div class="aspect-video overflow-hidden relative m-2 rounded-2xl">
-            <div class="absolute inset-0 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500" style="background:rgba(239,68,68,0.2);"></div>
-            <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-combat-classes-thumbnail-c0041bef538512df-800.jpg"
-                 alt="Combat Classes" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 z-20 transition-opacity duration-500 group-hover:opacity-60" style="background:linear-gradient(to top,#09090b,rgba(9,9,11,0.2),transparent);opacity:0.9;"></div>
-          </div>
-          <div class="relative z-30 p-6 pt-2">
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="tag-pill">Combat</span><span class="tag-pill">Classes</span><span class="tag-pill">RPG</span>
-            </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <h3 class="text-xl font-black text-white group-hover:text-red-400 transition-colors">Combat Classes</h3>
-              <span class="text-xs font-bold text-zinc-500 shrink-0 mt-1">Monster Egg Studios</span>
-            </div>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-3">Master powerful combat styles and wield legendary weapons — choose your class, unlock unique abilities, and dominate every fight.</p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-yellow-400 text-xs">★★★★★ <span class="text-zinc-400 ml-1">5.0</span><span class="text-zinc-600 ml-1">(3 ratings)</span></div>
-              <span class="text-zinc-500 text-xs font-semibold">310 MC</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-    </div><!-- end grid -->
-  </div>
-</section>
-
-<!-- ═══════════════════════ CONTACT ═══════════════════════ -->
-<section id="maps" class="py-24 md:py-32 px-6 lg:px-8 relative">
-  <div class="absolute inset-0 -z-10" style="background:rgba(9,9,11,0.6);"></div>
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-16 md:mb-20 fade-in">
-      <h2 class="outfit text-4xl md:text-6xl font-black tracking-tight mb-4 text-white">Maps We Worked On</h2>
-      <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto">Maps we have contributed to on the official Marketplace.</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      <!-- Card: Overpowered Weapons -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp?id=849a971e-aab0-4d7f-805f-e5fbfeab5372" target="_blank" rel="noopener noreferrer" class="block h-full fade-in">
-        <div class="project-card group glassmorphism rounded-3xl overflow-hidden h-full" style="background:rgba(9,9,11,0.5);">
-          <div class="card-spotlight rounded-3xl"></div>
-          <div class="aspect-video overflow-hidden relative m-2 rounded-2xl">
-            <div class="absolute inset-0 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500" style="background:rgba(59,130,246,0.2);"></div>
-            <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/4ks-studios-overpowered-weapons-thumbnail-9931915a24af1aad-800.jpg"
-                 alt="Overpowered Weapons" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 z-20 transition-opacity duration-500 group-hover:opacity-60" style="background:linear-gradient(to top,#09090b,rgba(9,9,11,0.2),transparent);opacity:0.9;"></div>
-          </div>
-          <div class="relative z-30 p-6 pt-2">
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="tag-pill">Weapons</span><span class="tag-pill">Combat</span><span class="tag-pill">Adventure</span>
-            </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <h3 class="text-xl font-black text-white group-hover:text-blue-400 transition-colors">Overpowered Weapons</h3>
-              <span class="text-xs font-bold text-zinc-500 shrink-0 mt-1">4KS Studios</span>
-            </div>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-3">Craft the most powerful weapons in Minecraft — exploding throwing stars, TNT swords, lightning axes and more.</p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-yellow-400 text-xs">★★★★★ <span class="text-zinc-400 ml-1">4.5</span><span class="text-zinc-600 ml-1">(29,000+ ratings)</span></div>
-              <span class="text-zinc-500 text-xs font-semibold">310 MC</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card: Lucky Block Factory -->
-      <a href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=13737edf-4d37-495b-9d77-385bfd03f3f1" target="_blank" rel="noopener noreferrer" class="block h-full fade-in">
-        <div class="project-card group glassmorphism rounded-3xl overflow-hidden h-full" style="background:rgba(9,9,11,0.5);">
-          <div class="card-spotlight rounded-3xl"></div>
-          <div class="aspect-video overflow-hidden relative m-2 rounded-2xl">
-            <div class="absolute inset-0 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500" style="background:rgba(59,130,246,0.2);"></div>
-            <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/kubo-studios-lucky-block-factory-thumbnail-ee034a9d1a4ffbc5-800.jpg"
-                 alt="Lucky Block Factory" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 z-20 transition-opacity duration-500 group-hover:opacity-60" style="background:linear-gradient(to top,#09090b,rgba(9,9,11,0.2),transparent);opacity:0.9;"></div>
-          </div>
-          <div class="relative z-30 p-6 pt-2">
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="tag-pill">Skyblock</span><span class="tag-pill">Lucky</span><span class="tag-pill">Survival</span>
-            </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <h3 class="text-xl font-black text-white group-hover:text-blue-400 transition-colors">Lucky Block Factory</h3>
-              <span class="text-xs font-bold text-zinc-500 shrink-0 mt-1">Kubo Studios</span>
-            </div>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-3">A brand new skyblock experience combining lucky blocks with survival — tons of surprises, giant mobs, and explosive animals.</p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-yellow-400 text-xs">★★★★★ <span class="text-zinc-400 ml-1">4.5</span><span class="text-zinc-600 ml-1">(500+ ratings)</span></div>
-              <span class="text-zinc-500 text-xs font-semibold">660 MC</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card: TNT City -->
-      <a href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=648cd07d-b6e3-401c-a8d4-6084897f09a2" target="_blank" rel="noopener noreferrer" class="block h-full fade-in">
-        <div class="project-card group glassmorphism rounded-3xl overflow-hidden h-full" style="background:rgba(9,9,11,0.5);">
-          <div class="card-spotlight rounded-3xl"></div>
-          <div class="aspect-video overflow-hidden relative m-2 rounded-2xl">
-            <div class="absolute inset-0 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500" style="background:rgba(59,130,246,0.2);"></div>
-            <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/kubo-studios-tnt-city-thumbnail-a44ed3d2f882aa63-800.jpg"
-                 alt="TNT City" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-            <div class="absolute inset-0 z-20 transition-opacity duration-500 group-hover:opacity-60" style="background:linear-gradient(to top,#09090b,rgba(9,9,11,0.2),transparent);opacity:0.9;"></div>
-          </div>
-          <div class="relative z-30 p-6 pt-2">
-            <div class="flex flex-wrap gap-2 mb-3">
-              <span class="tag-pill">TNT</span><span class="tag-pill">City</span><span class="tag-pill">PvP</span>
-            </div>
-            <div class="flex items-start justify-between gap-2 mb-2">
-              <h3 class="text-xl font-black text-white group-hover:text-blue-400 transition-colors">TNT City</h3>
-              <span class="text-xs font-bold text-zinc-500 shrink-0 mt-1">Kubo Studios</span>
-            </div>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-3">Craftable TNTs in a modern city with blast-resistant mechs, jetpacks, and explosive multiplayer PvP action.</p>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1 text-yellow-400 text-xs">★★★★ <span class="text-zinc-400 ml-1">4.1</span><span class="text-zinc-600 ml-1">(500+ ratings)</span></div>
-              <span class="text-zinc-500 text-xs font-semibold">830 MC</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-    </div><!-- end grid -->
-  </div>
-</section>
-
-<!-- ═══════════════════════ ADD-ONS ═══════════════════════ -->
-<section id="contact" class="py-24 md:py-32 px-6 lg:px-8 relative">
-  <div class="absolute inset-0 -z-10" style="background:rgba(9,9,11,0.7);"></div>
-  <div class="absolute inset-0 -z-10" style="background:radial-gradient(circle at 50% 100%, rgba(37,99,235,0.1) 0%, transparent 60%);"></div>
-  <div class="max-w-3xl mx-auto text-center fade-in">
-    <h2 class="outfit text-4xl md:text-6xl font-black tracking-tight mb-12 text-white">More...</h2>
-
-    <!-- Contact card -->
-    <div class="glassmorphism rounded-3xl p-8 md:p-12 text-left">
-      <div class="grid sm:grid-cols-2 gap-4">
-        <!-- Discord -->
-        <a href="https://discord.com/users/aalxvix" target="_blank" rel="noopener noreferrer"
-           class="group flex items-center gap-4 p-5 rounded-2xl transition-all hover:-translate-y-1"
-           style="background:rgba(39,39,42,0.5);border:1px solid rgba(255,255,255,0.05);"
-           onmouseover="this.style.borderColor='rgba(88,101,242,0.4)'"
-           onmouseout="this.style.borderColor='rgba(255,255,255,0.05)'">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(88,101,242,0.12);border:1px solid rgba(88,101,242,0.25);">
-            <i class="fab fa-discord text-indigo-400 text-xl"></i>
-          </div>
-          <div>
-            <div class="text-white font-semibold group-hover:text-indigo-400 transition-colors">Discord</div>
-            <div class="text-zinc-500 text-sm">aalxvix</div>
-          </div>
-          <svg class="w-4 h-4 text-zinc-600 ml-auto group-hover:text-indigo-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H7M17 7v10"/></svg>
-        </a>
-
-        <!-- Email -->
-        <a href="mailto:adamou.loubaris@gmail.com"
-           class="group flex items-center gap-4 p-5 rounded-2xl transition-all hover:-translate-y-1"
-           style="background:rgba(39,39,42,0.5);border:1px solid rgba(255,255,255,0.05);"
-           onmouseover="this.style.borderColor='rgba(59,130,246,0.3)'"
-           onmouseout="this.style.borderColor='rgba(255,255,255,0.05)'">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);">
-            <svg class="w-6 h-6 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          </div>
-          <div class="min-w-0">
-            <div class="text-white font-semibold group-hover:text-blue-400 transition-colors">Email</div>
-            <div class="text-zinc-500 text-sm truncate">adamou.loubaris@gmail.com</div>
-          </div>
-          <svg class="w-4 h-4 text-zinc-600 ml-auto shrink-0 group-hover:text-blue-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H7M17 7v10"/></svg>
-        </a>
-
-        <!-- YouTube -->
-        <a href="https://www.youtube.com/@OlivaresStudios" target="_blank" rel="noopener noreferrer"
-           class="group flex items-center gap-4 p-5 rounded-2xl transition-all hover:-translate-y-1"
-           style="background:rgba(39,39,42,0.5);border:1px solid rgba(255,255,255,0.05);"
-           onmouseover="this.style.borderColor='rgba(255,0,0,0.4)'"
-           onmouseout="this.style.borderColor='rgba(255,255,255,0.05)'">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.25);">
-            <i class="fab fa-youtube text-red-500 text-xl"></i>
-          </div>
-          <div>
-            <div class="text-white font-semibold group-hover:text-red-500 transition-colors">YouTube</div>
-            <div class="text-zinc-500 text-sm">@OlivaresStudios</div>
-          </div>
-          <svg class="w-4 h-4 text-zinc-600 ml-auto group-hover:text-red-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H7M17 7v10"/></svg>
-        </a>
-
-        <!-- Instagram -->
-        <a href="https://www.instagram.com/olivares.studios/" target="_blank" rel="noopener noreferrer"
-           class="group flex items-center gap-4 p-5 rounded-2xl transition-all hover:-translate-y-1"
-           style="background:rgba(39,39,42,0.5);border:1px solid rgba(255,255,255,0.05);"
-           onmouseover="this.style.borderColor='rgba(225,48,108,0.4)'"
-           onmouseout="this.style.borderColor='rgba(255,255,255,0.05)'">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(225,48,108,0.1);border:1px solid rgba(225,48,108,0.25);">
-            <i class="fab fa-instagram text-pink-500 text-xl"></i>
-          </div>
-          <div>
-            <div class="text-white font-semibold group-hover:text-pink-500 transition-colors">Instagram</div>
-            <div class="text-zinc-500 text-sm">@olivares.studios</div>
-          </div>
-          <svg class="w-4 h-4 text-zinc-600 ml-auto group-hover:text-pink-500 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H7M17 7v10"/></svg>
-        </a>
-      </div>
-
-      <div class="mt-8 pt-8" style="border-top:1px solid rgba(255,255,255,0.08);">
-        <p class="text-zinc-400 text-center text-sm">
-          Feel free to reach out — we are always open to new partnerships and collaborations.
-        </p>
+    <div class="wrap">
+      <div class="stats">
+        <div><b>10+</b><span>Add-ons built</span></div>
+        <div><b>30+</b><span>Marketplace maps</span></div>
+        <div><b>10+</b><span>Partner studios</span></div>
+        <div><b>29,000+</b><span>Ratings on one title</span></div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ═══════════════════════ ALL PROJECTS GRID ═══════════════════════ -->
-<section class="py-24 px-6 lg:px-8 relative">
-  <div class="absolute inset-0 -z-10" style="background:rgba(9,9,11,0.6);"></div>
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-12 fade-in">
-      <h2 class="outfit text-4xl md:text-5xl font-black tracking-tight mb-3 text-white">More</h2>
-      <p class="text-zinc-500 text-base">Click to view on the Marketplace</p>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 fade-in">
+    <section id="about">
+      <div class="wrap grid-2">
+        <h2>About</h2>
+        <div class="prose">
+          <p>I'm a freelance <strong>Minecraft Bedrock developer</strong>. I've built 10+ add-ons and contributed to 30+ maps
+            released on the official Minecraft Marketplace, working remotely with partner studios on spell and ability systems,
+            combat classes, pets, custom weapons, bosses and camera tools.</p>
+          <p>I care about code that holds up: an event-driven architecture, performance-aware scripting and modules that
+            stay easy to maintain and hand over to another developer.</p>
+          <p>Alongside this I'm studying for an <strong>engineering degree in computer science</strong> at Polytech
+            Nice-Sophia and working as a <strong>cybersecurity apprentice at SAP Labs France</strong>.</p>
+          <div class="studios">
+            <span>Monster Egg Studios</span><span>Eescal Studios</span><span>Kubo Studios</span><span>4KS Studios</span><span>Nitric Concepts</span><span>Yeggs</span><span>Architect Edge</span><span>Pixelusion</span><span>Miracles Studios</span><span>Lua Studios</span><span>Pickaxe Studios</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <!-- Overpowered Weapons -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp?id=849a971e-aab0-4d7f-805f-e5fbfeab5372" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/4ks-studios-overpowered-weapons-thumbnail-9931915a24af1aad-800.jpg"
-             alt="Overpowered Weapons" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Overpowered Weapons</span>
+    <section id="experience">
+      <div class="wrap grid-2">
+        <h2>Experience</h2>
+        <div>
+          <div class="job">
+            <div class="job-top"><h3>Freelance Minecraft Bedrock Developer</h3><span class="when">Remote</span></div>
+            <div class="where">Minecraft Marketplace</div>
+            <ul>
+              <li>Built 10+ add-ons and contributed to 30+ maps released on the official Marketplace.</li>
+              <li>Clients include Monster Egg Studios, Eescal Studios, Kubo Studios, 4KS Studios and Nitric Concepts.</li>
+              <li>Scripted spell and ability systems, combat classes, pets, custom weapons, bosses and camera tools.</li>
+            </ul>
+          </div>
+          <div class="job">
+            <div class="job-top"><h3>Cybersecurity Apprentice</h3><span class="when">Current</span></div>
+            <div class="where">SAP Labs France</div>
+            <ul><li>Work-study position alongside my engineering degree.</li></ul>
+          </div>
+          <div class="job">
+            <div class="job-top"><h3>Engineering degree, Computer Science</h3><span class="when">In progress</span></div>
+            <div class="where">Polytech Nice-Sophia, Université Côte d'Azur</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Selected work</h2>
+          <p>Marketplace titles I worked on. Click a project to open its store page.</p>
+        </div>
+        <div class="cards">
+      <a class="card" href="https://www.minecraft.net/en-us/marketplace/pdp/monster-egg-studios/spellbook/a6ffa5d4-56aa-4998-bba2-8c3829025504" target="_blank" rel="noopener noreferrer">
+        <img src="img/monster-egg-studios-spellbook.jpg" alt="Spellbook" loading="lazy">
+        <div class="card-body">
+          <div class="card-meta"><span>Add-on</span><span>Monster Egg Studios</span></div>
+          <h3>Spellbook</h3>
+          <p>12 spellbooks and around 50 scripted spells: projectiles, area attacks, summons, shields and transformations, tied together by a mana system and a data-driven spell configuration.</p>
+          <div class="rating">Rated 4.3 · 1,500+ ratings</div>
         </div>
       </a>
-
-      <!-- Lucky Block Factory -->
-      <a href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=13737edf-4d37-495b-9d77-385bfd03f3f1" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/kubo-studios-lucky-block-factory-thumbnail-ee034a9d1a4ffbc5-800.jpg"
-             alt="Lucky Block Factory" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Lucky Block Factory</span>
+      <a class="card" href="https://www.minecraft.net/en-us/marketplace/pdp?id=849a971e-aab0-4d7f-805f-e5fbfeab5372" target="_blank" rel="noopener noreferrer">
+        <img src="img/4ks-studios-overpowered-weapons.jpg" alt="Overpowered Weapons" loading="lazy">
+        <div class="card-body">
+          <div class="card-meta"><span>Map</span><span>4KS Studios</span></div>
+          <h3>Overpowered Weapons</h3>
+          <p>Craftable over-the-top weapons such as exploding throwing stars, TNT swords and lightning axes.</p>
+          <div class="rating">Rated 4.5 · 29,000+ ratings</div>
         </div>
       </a>
-
-      <!-- TNT City -->
-      <a href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=648cd07d-b6e3-401c-a8d4-6084897f09a2" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/kubo-studios-tnt-city-thumbnail-a44ed3d2f882aa63-800.jpg"
-             alt="TNT City" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">TNT City</span>
+      <a class="card" href="https://www.minecraft.net/en-us/marketplace/pdp/monster-egg-studios/combat-classes/68f37b02-1b8a-4b8b-a746-6fdc3e6f5582" target="_blank" rel="noopener noreferrer">
+        <img src="img/monster-egg-studios-combat-classes.jpg" alt="Combat Classes" loading="lazy">
+        <div class="card-body">
+          <div class="card-meta"><span>Add-on</span><span>Monster Egg Studios</span></div>
+          <h3>Combat Classes</h3>
+          <p>Selectable combat classes with their own weapons and unlockable abilities.</p>
+          <div class="rating">Rated 5.0</div>
         </div>
       </a>
-
-      <!-- Auto Miners -->
-      <a href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=d168d6d6-55c2-44b8-ade5-93aba90721c4" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/4ks-studios-auto-miners-thumbnail-cb6b141d09d10a54-800.jpg"
-             alt="Auto Miners" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Auto Miners</span>
+      <a class="card" href="https://bedrockexplorer.com/@eescal-studios/ring-pets-add-on" target="_blank" rel="noopener noreferrer">
+        <img src="img/eescal-studios-ring-pets-add-on.jpg" alt="Ring Pets" loading="lazy">
+        <div class="card-body">
+          <div class="card-meta"><span>Add-on</span><span>Eescal Studios</span></div>
+          <h3>Ring Pets</h3>
+          <p>Craftable magic rings that cast spells and summon pets.</p>
+          <div class="rating">Rated 4.0 · 400+ ratings</div>
         </div>
       </a>
-
-      <!-- Sharks Survival! -->
-      <a href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=988d3c95-15ae-4cea-b2a7-ca7613b34882" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/kubo-studios-sharks-survivalexclamation-thumbnail-8a2ced111490a3c1-800.jpg"
-             alt="Sharks Survival!" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Sharks Survival!</span>
+      <a class="card" href="https://bedrockexplorer.com/@monster-egg-studios/cinemacraft-add-on" target="_blank" rel="noopener noreferrer">
+        <img src="img/monster-egg-studios-cinemacraft-add-on.jpg" alt="CinemaCraft" loading="lazy">
+        <div class="card-body">
+          <div class="card-meta"><span>Add-on</span><span>Monster Egg Studios</span></div>
+          <h3>CinemaCraft</h3>
+          <p>In-game filmmaking tool: camera controls, smooth camera paths and multiple perspectives.</p>
+          <div class="rating">Rated 3.6</div>
         </div>
       </a>
-
-      <!-- Mob Masks -->
-      <a href="https://www.minecraft.net/fr-fr/marketplace/pdp?id=f7d21579-61dd-4545-8eaa-c44fb2e11106" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/yeggs-mob-masks-thumbnail-9636b659db19612e-800.jpg"
-             alt="Mob Masks" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Mob Masks</span>
+      <a class="card" href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=13737edf-4d37-495b-9d77-385bfd03f3f1" target="_blank" rel="noopener noreferrer">
+        <img src="img/kubo-studios-lucky-block-factory.jpg" alt="Lucky Block Factory" loading="lazy">
+        <div class="card-body">
+          <div class="card-meta"><span>Map</span><span>Kubo Studios</span></div>
+          <h3>Lucky Block Factory</h3>
+          <p>Skyblock survival built around lucky blocks, giant mobs and explosive surprises.</p>
+          <div class="rating">Rated 4.5 · 500+ ratings</div>
         </div>
       </a>
-
-      <!-- Lucky Block Bosses -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp?id=6bbf540a-0ab5-4340-a33c-fc0f3ce66c06" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/yeggs-lucky-block-bosses-thumbnail-b8ab395900894834-800.jpg"
-             alt="Lucky Block Bosses" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Lucky Block Bosses</span>
         </div>
+        <div class="thumbs">
+      <a class="thumb" href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=648cd07d-b6e3-401c-a8d4-6084897f09a2" target="_blank" rel="noopener noreferrer">
+        <img src="img/kubo-studios-tnt-city.jpg" alt="TNT City" loading="lazy">
+        <span><b>TNT City</b>Kubo Studios</span>
       </a>
-
-      <!-- Parkour Universe -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp?id=ccf37ba5-9bfc-4270-b745-f48900d38132" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/yeggs-parkour-universe-thumbnail-c2972e3921493450-800.jpg"
-             alt="Parkour Universe" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Parkour Universe</span>
+      <a class="thumb" href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=d168d6d6-55c2-44b8-ade5-93aba90721c4" target="_blank" rel="noopener noreferrer">
+        <img src="img/4ks-studios-auto-miners.jpg" alt="Auto Miners" loading="lazy">
+        <span><b>Auto Miners</b>4KS Studios</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/fr-ca/marketplace/pdp?id=988d3c95-15ae-4cea-b2a7-ca7613b34882" target="_blank" rel="noopener noreferrer">
+        <img src="img/kubo-studios-sharks-survivalexclamation.jpg" alt="Sharks Survival!" loading="lazy">
+        <span><b>Sharks Survival!</b>Kubo Studios</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/fr-fr/marketplace/pdp?id=f7d21579-61dd-4545-8eaa-c44fb2e11106" target="_blank" rel="noopener noreferrer">
+        <img src="img/yeggs-mob-masks.jpg" alt="Mob Masks" loading="lazy">
+        <span><b>Mob Masks</b>Yeggs</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/en-us/marketplace/pdp?id=6bbf540a-0ab5-4340-a33c-fc0f3ce66c06" target="_blank" rel="noopener noreferrer">
+        <img src="img/yeggs-lucky-block-bosses.jpg" alt="Lucky Block Bosses" loading="lazy">
+        <span><b>Lucky Block Bosses</b>Yeggs</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/en-us/marketplace/pdp?id=ccf37ba5-9bfc-4270-b745-f48900d38132" target="_blank" rel="noopener noreferrer">
+        <img src="img/yeggs-parkour-universe.jpg" alt="Parkour Universe" loading="lazy">
+        <span><b>Parkour Universe</b>Yeggs</span>
+      </a>
+      <a class="thumb" href="https://bedrockexplorer.com/@monster-egg-studios/horses" target="_blank" rel="noopener noreferrer">
+        <img src="img/monster-egg-studios-horsesplus.jpg" alt="Horses+" loading="lazy">
+        <span><b>Horses+</b>Monster Egg Studios</span>
+      </a>
+      <a class="thumb" href="https://bedrockexplorer.com/@monster-egg-studios/heroes" target="_blank" rel="noopener noreferrer">
+        <img src="img/monster-egg-studios-heroes.jpg" alt="Heroes" loading="lazy">
+        <span><b>Heroes</b>Monster Egg Studios</span>
+      </a>
+      <a class="thumb" href="https://www.bedrockexplorer.com/@nitric-concepts/unicorns" target="_blank" rel="noopener noreferrer">
+        <img src="img/nitric-concepts-unicorns.jpg" alt="Unicorns" loading="lazy">
+        <span><b>Unicorns</b>Nitric Concepts</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/en-us/marketplace/pdp/nitric-concepts/modern-mansions/07946a25-bc55-45a3-9e92-cd7293d33996" target="_blank" rel="noopener noreferrer">
+        <img src="img/nitric-concepts-modern-mansions.jpg" alt="Modern Mansions" loading="lazy">
+        <span><b>Modern Mansions</b>Nitric Concepts</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/en-us/marketplace/pdp/cypress-games/defend-the-kingdom/43e8bcae-88e3-4bc5-97b6-25a6cfe87410" target="_blank" rel="noopener noreferrer">
+        <img src="img/cypress-games-defend-the-kingdom.jpg" alt="Defend the Kingdom" loading="lazy">
+        <span><b>Defend the Kingdom</b>Cypress Games</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/en-us/marketplace/pdp/nitric-concepts/sci--fi-factory/7da4e57a-2480-4849-8214-6d21d6c41135" target="_blank" rel="noopener noreferrer">
+        <img src="img/nitric-concepts-sci-fi-factory.jpg" alt="Sci-Fi Factory" loading="lazy">
+        <span><b>Sci-Fi Factory</b>Nitric Concepts</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/en-us/marketplace/pdp/nitric-concepts/zombie-outpost/a773b277-b57c-49b8-8de7-0b2f016cc2ff" target="_blank" rel="noopener noreferrer">
+        <img src="img/nitric-concepts-zombie-outpost.jpg" alt="Zombie Outpost" loading="lazy">
+        <span><b>Zombie Outpost</b>Nitric Concepts</span>
+      </a>
+      <a class="thumb" href="https://www.bedrockexplorer.com/@eescal-studios/ultimate-weapons" target="_blank" rel="noopener noreferrer">
+        <img src="img/eescal-studios-ultimate-weapons.jpg" alt="Ultimate Weapons" loading="lazy">
+        <span><b>Ultimate Weapons</b>Eescal Studios</span>
+      </a>
+      <a class="thumb" href="https://www.minecraft.net/en-us/marketplace/pdp/4ks-studios/damage-=-random-mobs/c4c8daef-c2ba-4b2a-ac91-7e0a038bd617" target="_blank" rel="noopener noreferrer">
+        <img src="img/4ks-studios-damage-equals-random-mobs.jpg" alt="Damage = Random Mobs" loading="lazy">
+        <span><b>Damage = Random Mobs</b>4KS Studios</span>
+      </a>
         </div>
-      </a>
+      </div>
+    </section>
 
-      <!-- Spellbook -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/monster-egg-studios/spellbook/a6ffa5d4-56aa-4998-bba2-8c3829025504" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-spellbook-thumbnail-4dc9ad5c82a23a6c-800.jpg"
-             alt="Spellbook" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Spellbook</span>
+    <section id="skills">
+      <div class="wrap grid-2">
+        <h2>Skills</h2>
+        <div class="skills">
+          <div><h3>Scripting</h3><ul>
+            <li>Bedrock Script API</li><li>TypeScript / JavaScript</li><li>Molang &amp; animation controllers</li><li>Entity component system</li></ul></div>
+          <div><h3>Content</h3><ul>
+            <li>Behavior &amp; resource packs</li><li>Custom entities, blocks, items</li><li>Blockbench models &amp; animations</li><li>Map scripting</li></ul></div>
+          <div><h3>Workflow</h3><ul>
+            <li>Git &amp; code review</li><li>Marketplace packaging &amp; submission</li><li>Remote work, on deadline</li><li>Python, Java, C, Linux</li></ul></div>
         </div>
-      </a>
+      </div>
+    </section>
 
-      <!-- CinemaCraft -->
-      <a href="https://bedrockexplorer.com/@monster-egg-studios/cinemacraft-add-on" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-cinemacraft-add-on-thumbnail-19cf10ea87911cbf-800.jpg"
-             alt="CinemaCraft" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">CinemaCraft</span>
+    <section id="contact">
+      <div class="wrap grid-2">
+        <h2>Contact</h2>
+        <div>
+          <p class="prose">Open to freelance work and full-time roles on Minecraft Bedrock projects. Based in France, Paris time zone.</p>
+          <div class="contact-list">
+            <a href="mailto:adamou.loubaris@gmail.com"><small>Email</small><strong>adamou.loubaris@gmail.com</strong></a>
+            <a href="https://discord.com/users/aalxvix" target="_blank" rel="noopener noreferrer"><small>Discord</small><strong>aalxvix</strong></a>
+            <a href="https://github.com/loubaris" target="_blank" rel="noopener noreferrer"><small>GitHub</small><strong>github.com/loubaris</strong></a>
+            <a href="docs-90e93cc15d59e50f5a37618d/Adam_Loubaris_CV.pdf" target="_blank" rel="noopener noreferrer"><small>Resume</small><strong>Download PDF</strong></a>
+          </div>
         </div>
-      </a>
+      </div>
+    </section>
+  </main>
 
-      <!-- Ring Pets -->
-      <a href="https://bedrockexplorer.com/@eescal-studios/ring-pets-add-on" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/eescal-studios-ring-pets-add-on-thumbnail-06e6e0ef26482324-800.jpg"
-             alt="Ring Pets" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Ring Pets</span>
-        </div>
-      </a>
-
-      <!-- Combat Classes -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/monster-egg-studios/combat-classes/68f37b02-1b8a-4b8b-a746-6fdc3e6f5582" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-combat-classes-thumbnail-c0041bef538512df-800.jpg"
-             alt="Combat Classes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Combat Classes</span>
-        </div>
-      </a>
-
-      <!-- Horses+ -->
-      <a href="https://bedrockexplorer.com/@monster-egg-studios/horses" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-horsesplus-thumbnail-3eee0ca64b05d796-800.jpg"
-             alt="Horses+" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Horses+</span>
-        </div>
-      </a>
-
-      <!-- Heroes -->
-      <a href="https://bedrockexplorer.com/@monster-egg-studios/heroes" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/monster-egg-studios-heroes-thumbnail-1fa4fb03f2b7d64a-800.jpg"
-             alt="Heroes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Heroes</span>
-        </div>
-      </a>
-
-      <!-- Unicorns -->
-      <a href="https://www.bedrockexplorer.com/@nitric-concepts/unicorns" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/nitric-concepts-unicorns-thumbnail-05596dba3b5293e5-800.jpg"
-             alt="Unicorns" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Unicorns</span>
-        </div>
-      </a>
-
-      <!-- Modern Mansions -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/nitric-concepts/modern-mansions/07946a25-bc55-45a3-9e92-cd7293d33996" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/nitric-concepts-modern-mansions-thumbnail-67f1db076628177a-800.jpg"
-             alt="Modern Mansions" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Modern Mansions</span>
-        </div>
-      </a>
-
-      <!-- Defend the Kingdom -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/cypress-games/defend-the-kingdom/43e8bcae-88e3-4bc5-97b6-25a6cfe87410" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/cypress-games-defend-the-kingdom-thumbnail-50f228f4d1a0aeec-800.jpg"
-             alt="Defend the Kingdom" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Defend the Kingdom</span>
-        </div>
-      </a>
-
-      <!-- Sci-Fi Factory -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/nitric-concepts/sci--fi-factory/7da4e57a-2480-4849-8214-6d21d6c41135" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/nitric-concepts-sci-fi-factory-thumbnail-9cfbb44f5a5f0310-800.jpg"
-             alt="Sci-Fi Factory" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Sci-Fi Factory</span>
-        </div>
-      </a>
-
-      <!-- Zombie Outpost -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/nitric-concepts/zombie-outpost/a773b277-b57c-49b8-8de7-0b2f016cc2ff" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/nitric-concepts-zombie-outpost-thumbnail-cddf8327f1d223cc-800.jpg"
-             alt="Zombie Outpost" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Zombie Outpost</span>
-        </div>
-      </a>
-
-      <!-- Ultimate Weapons -->
-      <a href="https://www.bedrockexplorer.com/@eescal-studios/ultimate-weapons" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/eescal-studios-ultimate-weapons-thumbnail-c581ee78aec08bd0-800.jpg"
-             alt="Ultimate Weapons" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Ultimate Weapons</span>
-        </div>
-      </a>
-
-      <!-- Damage = Random Mobs -->
-      <a href="https://www.minecraft.net/en-us/marketplace/pdp/4ks-studios/damage-=-random-mobs/c4c8daef-c2ba-4b2a-ac91-7e0a038bd617" target="_blank" rel="noopener noreferrer"
-         class="group relative rounded-2xl overflow-hidden aspect-video" style="background:#18181b;">
-        <img src="https://images.bedrockexplorer.com/minecraft-marketplace-content/4ks-studios-damage-equals-random-mobs-thumbnail-7938fb35a2fb4bf9-800.jpg"
-             alt="Damage = Random Mobs" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
-             style="background:linear-gradient(to top,rgba(9,9,11,0.9),transparent);">
-          <span class="text-white text-xs font-bold leading-tight">Damage = Random Mobs</span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
-<footer class="py-8 px-6" style="border-top:1px solid rgba(255,255,255,0.08);">
-  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-    <span class="minecraft-font text-zinc-500 text-xs">Olivares</span>
-    <p class="text-zinc-600 text-sm">© 2025 Olivares · Minecraft Bedrock Studio</p>
-    <a href="#" class="text-zinc-500 hover:text-blue-400 transition-colors text-sm">Back to top ↑</a>
-  </div>
-</footer>
-
-<!-- ═══════════════════════ STYLES FOR TAGS ═══════════════════════ -->
-<style>
-  .tag-pill {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 3px 10px;
-    background: rgba(59,130,246,0.1);
-    color: #60a5fa;
-    border-radius: 9999px;
-    border: 1px solid rgba(59,130,246,0.2);
-    box-shadow: 0 0 10px rgba(59,130,246,0.1);
-  }
-  .tag-pill-purple {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 3px 10px;
-    background: rgba(168,85,247,0.1);
-    color: #c084fc;
-    border-radius: 9999px;
-    border: 1px solid rgba(168,85,247,0.2);
-    box-shadow: 0 0 10px rgba(168,85,247,0.1);
-  }
-</style>
-
-<!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
-<script>
-  // Mobile menu toggle
-  document.getElementById('menu-btn').addEventListener('click', () => {
-    document.getElementById('mobile-menu').classList.toggle('hidden');
-  });
-
-  // Close mobile menu on nav link click
-  document.querySelectorAll('#mobile-menu a').forEach(a => {
-    a.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden'));
-  });
-
-  // Scroll-based fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // Card spotlight effect
-  document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mx', x + '%');
-      card.style.setProperty('--my', y + '%');
-    });
-  });
-</script>
+  <footer>
+    <div class="wrap"><span>© 2026 Adam Loubaris</span><a href="#">Back to top</a></div>
+  </footer>
 </body>
 </html>
