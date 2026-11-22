@@ -28,24 +28,24 @@
     nav a { color: var(--muted); transition: color .15s; }
     nav a:hover { color: var(--ink); }
 
-    .hero { padding: 96px 0 72px; }
-    .eyebrow { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: .02em; margin-bottom: 16px; }
-    h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); font-weight: 700; }
-    .lead { font-size: 19px; max-width: 640px; margin-top: 20px; color: var(--text); }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-    .btn { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 8px; font-size: 15px;
+    .hero { padding-top: 48px; padding-bottom: 32px; }
+    .eyebrow { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: .02em; margin-bottom: 10px; }
+    h1 { font-size: clamp(34px, 5vw, 48px); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); font-weight: 700; }
+    .lead { font-size: 17px; max-width: 640px; margin-top: 12px; color: var(--text); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 8px; font-size: 15px;
            font-weight: 600; border: 1px solid var(--line); color: var(--ink); background: #fff; transition: border-color .15s, background .15s; }
     .btn:hover { border-color: #c9ccd2; background: var(--soft); }
     .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
     .btn.primary:hover { background: #2b2f37; }
 
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .stats div { padding: 24px 20px; border-right: 1px solid var(--line); }
+    .stats div { padding: 14px 20px; border-right: 1px solid var(--line); }
     .stats div:last-child { border-right: 0; }
-    .stats b { display: block; font-size: 28px; color: var(--ink); letter-spacing: -0.02em; }
+    .stats b { display: block; font-size: 22px; color: var(--ink); letter-spacing: -0.02em; }
     .stats span { font-size: 14px; color: var(--muted); }
 
-    section { padding: 80px 0; }
+    section { padding: 56px 0; }
     section + section { border-top: 1px solid var(--line); }
     .grid-2 { display: grid; grid-template-columns: 240px 1fr; gap: 48px; }
     h2 { font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
@@ -55,7 +55,7 @@
     .studios span { font-size: 13px; font-weight: 500; padding: 4px 10px; border-radius: 6px; background: var(--soft);
                     border: 1px solid var(--line); color: var(--text); }
 
-    .job + .job { margin-top: 28px; }
+    .job + .job { margin-top: 18px; }
     .job-top { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; flex-wrap: wrap; }
     .job h3 { font-size: 17px; color: var(--ink); font-weight: 600; }
     .job .where { color: var(--accent); font-weight: 500; font-size: 15px; }
@@ -106,7 +106,7 @@
     }
     @media (max-width: 640px) {
       nav { display: none; }
-      .hero { padding: 64px 0 48px; }
+      .hero { padding-top: 40px; padding-bottom: 28px; }
       .stats { grid-template-columns: repeat(2, 1fr); }
       .stats div:nth-child(2) { border-right: 0; }
       .stats div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -121,9 +121,9 @@
     <div class="wrap">
       <a class="brand" href="#">Adam Loubaris</a>
       <nav>
+        <a href="#work">Work</a>
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
-        <a href="#work">Work</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -151,50 +151,6 @@
         <div><b>56,000+</b><span>Ratings on one title</span></div>
       </div>
     </div>
-
-    <section id="about">
-      <div class="wrap grid-2">
-        <h2>About</h2>
-        <div class="prose">
-          <p>I'm a freelance <strong>Minecraft Bedrock developer</strong>. I've built 10+ add-ons and contributed to 30+ maps
-            released on the official Minecraft Marketplace, working remotely with partner studios on spell and ability systems,
-            combat classes, pets, custom weapons, bosses and camera tools.</p>
-          <p>I care about code that holds up: an event-driven architecture, performance-aware scripting and modules that
-            stay easy to maintain and hand over to another developer.</p>
-          <p>Alongside this I'm studying for an <strong>engineering degree in computer science</strong> at Polytech
-            Nice-Sophia and working as a <strong>cybersecurity apprentice at SAP Labs France</strong>.</p>
-          <div class="studios">
-            <span>Monster Egg Studios</span><span>Eescal Studios</span><span>Kubo Studios</span><span>4KS Studios</span><span>Nitric Concepts</span><span>Yeggs</span><span>Architect Edge</span><span>Pixelusion</span><span>Miracles Studios</span><span>Lua Studios</span><span>Pickaxe Studios</span><span>Kora Studios</span><span>Olivares Studios</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience">
-      <div class="wrap grid-2">
-        <h2>Experience</h2>
-        <div>
-          <div class="job">
-            <div class="job-top"><h3>Freelance Minecraft Bedrock Developer</h3><span class="when">Remote</span></div>
-            <div class="where">Minecraft Marketplace</div>
-            <ul>
-              <li>Built 10+ add-ons and contributed to 30+ maps released on the official Marketplace.</li>
-              <li>Clients include Monster Egg Studios, Eescal Studios, Kubo Studios, 4KS Studios and Nitric Concepts.</li>
-              <li>Scripted spell and ability systems, combat classes, pets, custom weapons, bosses and camera tools.</li>
-            </ul>
-          </div>
-          <div class="job">
-            <div class="job-top"><h3>Cybersecurity Apprentice</h3><span class="when">Current</span></div>
-            <div class="where">SAP Labs France</div>
-            <ul><li>Work-study position alongside my engineering degree.</li></ul>
-          </div>
-          <div class="job">
-            <div class="job-top"><h3>Engineering degree, Computer Science</h3><span class="when">In progress</span></div>
-            <div class="where">Polytech Nice-Sophia, Université Côte d'Azur</div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section id="work">
       <div class="wrap">
@@ -343,6 +299,50 @@
         <img src="img/olivares-studios-controlled-chaos.jpg" alt="Controlled Chaos" loading="lazy">
         <span><b>Controlled Chaos</b>Olivares Studios · CurseForge</span>
       </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap grid-2">
+        <h2>About</h2>
+        <div class="prose">
+          <p>I'm a freelance <strong>Minecraft Bedrock developer</strong>. I've built 10+ add-ons and contributed to 30+ maps
+            released on the official Minecraft Marketplace, working remotely with partner studios on spell and ability systems,
+            combat classes, pets, custom weapons, bosses and camera tools.</p>
+          <p>I care about code that holds up: an event-driven architecture, performance-aware scripting and modules that
+            stay easy to maintain and hand over to another developer.</p>
+          <p>Alongside this I'm studying for an <strong>engineering degree in computer science</strong> at Polytech
+            Nice-Sophia and working as a <strong>cybersecurity apprentice at SAP Labs France</strong>.</p>
+          <div class="studios">
+            <span>Monster Egg Studios</span><span>Eescal Studios</span><span>Kubo Studios</span><span>4KS Studios</span><span>Nitric Concepts</span><span>Yeggs</span><span>Architect Edge</span><span>Pixelusion</span><span>Miracles Studios</span><span>Lua Studios</span><span>Pickaxe Studios</span><span>Kora Studios</span><span>Olivares Studios</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap grid-2">
+        <h2>Experience</h2>
+        <div>
+          <div class="job">
+            <div class="job-top"><h3>Freelance Minecraft Bedrock Developer</h3><span class="when">Remote</span></div>
+            <div class="where">Minecraft Marketplace</div>
+            <ul>
+              <li>Built 10+ add-ons and contributed to 30+ maps released on the official Marketplace.</li>
+              <li>Clients include Monster Egg Studios, Eescal Studios, Kubo Studios, 4KS Studios and Nitric Concepts.</li>
+              <li>Scripted spell and ability systems, combat classes, pets, custom weapons, bosses and camera tools.</li>
+            </ul>
+          </div>
+          <div class="job">
+            <div class="job-top"><h3>Cybersecurity Apprentice</h3><span class="when">Current</span></div>
+            <div class="where">SAP Labs France</div>
+            <ul><li>Work-study position alongside my engineering degree.</li></ul>
+          </div>
+          <div class="job">
+            <div class="job-top"><h3>Engineering degree, Computer Science</h3><span class="when">In progress</span></div>
+            <div class="where">Polytech Nice-Sophia, Université Côte d'Azur</div>
+          </div>
         </div>
       </div>
     </section>
